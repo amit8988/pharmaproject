@@ -1,0 +1,17 @@
+pipeline {
+    agent any 
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/amit8988/pharmaproject.git'
+            }
+        }
+        stage('deploy') {
+            steps {
+                sshagent(['test']) {
+                    sh 'scp -o StrictHostKeyChecking=no index.html ubuntu@51.20.18.191:/var/www/html/'
+                }
+            }
+        }
+    }
+}
